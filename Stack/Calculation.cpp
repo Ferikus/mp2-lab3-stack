@@ -1,14 +1,101 @@
 #include "Calculation.h";
 
-bool TCalculation::CheckExpression() {
+int TCalculation::prior(char c) {
+	switch (c) {
+	case '(': return 0;
+	case ')': return 0;
+	case '+': return 1;
+	case '-': return 1;
+	case '*': return 2;
+	case '/': return 2;
+	case '^': return 3;
+	}
+}
+
+bool TCalculation::checkExpression() {
 	int res = true;
-	for (int i = 0; i < expr.size(); i++) {
-		if (expr[i] == '(') st.stackPush('(');
-		if (expr[i] == ')') {
-			if (!st.stackEmpty()) st.stackPop();
+	for (int i = 0; i < infix.size(); i++) {
+		if (infix[i] == '(') C.push('(');
+		if (infix[i] == ')') {
+			if (!C.empty()) C.pop();
 			else res = false;
 		}
 	}
-	if (!st.stackEmpty()) res = false;
+	if (!C.empty()) res = false;
 	return res;
+}
+
+void TCalculation::toPostfix() {
+	C.clear();
+	std::string str = "(" + infix + ")";
+	for (int i = 0; i < str.size(); i++) {
+		if (str[i] == '(') C.push('(');
+		else if (isdigit(str[i])) postfix += str[i];
+		if (str[i] == ')') {
+			char el = C.pop();
+			while (el != '(') {
+				postfix += el;
+				el = C.pop();
+			}
+		}
+		if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
+			char el = C.pop();
+			while (prior(el) >= prior(str[i])) {
+				postfix += el;
+				el = C.pop();
+			}
+		}
+	}
+}
+
+double TCalculation::calc() {
+	C.clear(); D.clear();
+	std::string str = '(' + infix + ')';
+	for (int i = 0; i < str.size(); i++) {
+		if (str[i] == '(') C.push(str[i]);
+		if (str[i] == ')') {
+			char el = C.pop();
+			while (el != ')') {
+				double x2 = D.pop(),
+					x1 = D.pop(),
+					res;
+				switch (el) {
+				case '+': res = x1 + x2; break;
+				case '-': res = x1 - x2; break;
+				case '*': res = x1 * x2; break;
+				case '/': res = x1 / x2; break;
+				case '^': res = pow(x1, x2); break;
+				}
+				D.push(res);
+				el = C.pop();
+			}
+		}
+		if (isdigit(str[i])) {
+			size_t pos;
+			double x;
+			x = std::stod(&str[i], &pos);
+			D.push(x);
+			i = i + pos - 1;
+		}
+		if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
+			char el = C.pop();
+			while (prior(el) >= prior(str[i])) {
+				double x1, x2, res;
+				x2 = D.pop();
+				x1 = D.pop();
+				switch (str[i]) {
+				case '+': res = x1 + x2; break;
+				case '-': res = x1 - x2; break;
+				case '*': res = x1 * x2; break;
+				case '/': res = x1 / x2; break;
+				case '^': res = pow(x1, x2); break;
+				}
+				D.push(res);
+				el = C.pop();
+			}
+			C.push(el);
+			C.push(str[i]);
+		}
+	}
+	return D.pop();
 }

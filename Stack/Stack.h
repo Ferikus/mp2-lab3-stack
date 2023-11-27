@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 template <class T>
 class TStack
@@ -31,29 +32,29 @@ public:
 			pMem[i] = s.pMem[i];
 		}
 	}
-	ostream& operator<< (ostream& os, const TStack& s) {
-		for (int i = 0; i < CurrInd; i++) {
-			os << pMem[i] << " ";
+	friend std::ostream& operator<< (std::ostream& os, const TStack& s) {
+		for (int i = 0; i < s.CurrInd; i++) {
+			os << s.pMem[i] << " ";
 		}
-		os << pMem[i];
 		return os;
 	}
-	bool stackEmpty() { return CurrInd == -1 }
-	bool stackFull() { return CurrInd == (MaxSize - 1) }
-	void stackPush(const T& el) {
+	bool empty() { return CurrInd == -1; }
+	bool full() { return CurrInd == (MaxSize - 1); }
+	void push(const T& el) {
 		CurrInd++;
+		pMem[CurrInd] = el;
 		if (CurrInd >= MaxSize) throw "Stack overflow";
 	}
-	T stackPop() {
-		if (stackEmpty()) throw "Stack is empty";
+	T pop() {
+		if (empty()) throw "Stack is empty";
 		CurrInd--;
-		return pMeme[CurrInd + 1];
+		return pMem[CurrInd + 1];
 	}
-	T stackTop() {
-		if (stackEmpty()) throw "Stack is empty";
-		return pMeme[CurrInd + 1];
+	T top() {
+		if (empty()) throw "Stack is empty";
+		return pMem[CurrInd + 1];
 	}
-	void stackClear() {
+	void clear() {
 		CurrInd = -1;
 	}
 };
