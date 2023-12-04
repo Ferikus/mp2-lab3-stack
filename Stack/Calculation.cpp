@@ -1,6 +1,6 @@
 #include "Calculation.h";
 
-int TCalculation::prior(char c) {
+int TCalc::prior(char c) {
 	switch (c) {
 	case '(': return 0;
 	case ')': return 0;
@@ -12,7 +12,7 @@ int TCalculation::prior(char c) {
 	}
 }
 
-bool TCalculation::checkExpression() {
+bool TCalc::checkExpression() {
 	int res = true;
 	for (int i = 0; i < infix.size(); i++) {
 		if (infix[i] == '(') C.push('(');
@@ -25,7 +25,7 @@ bool TCalculation::checkExpression() {
 	return res;
 }
 
-void TCalculation::toPostfix() {
+void TCalc::toPostfix() {
 	C.clear();
 	std::string str = "(" + infix + ")";
 	for (int i = 0; i < str.size(); i++) {
@@ -48,7 +48,7 @@ void TCalculation::toPostfix() {
 	}
 }
 
-double TCalculation::calc() {
+double TCalc::calc() {
 	C.clear(); D.clear();
 	std::string str = '(' + infix + ')';
 	for (int i = 0; i < str.size(); i++) {

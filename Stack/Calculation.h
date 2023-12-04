@@ -3,12 +3,11 @@
 #include <cmath>
 #include "Stack.h";
 
-class TCalculation
+class TCalc
 {
 	std::string infix, postfix;
 	TStack<double> D;
 	TStack<char> C;
-
 	int prior(char c);
 public:
 	bool checkExpression();

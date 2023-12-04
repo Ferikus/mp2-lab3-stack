@@ -9,6 +9,7 @@ class TStack
 	int CurrInd;
 public:
 	TStack(int _MaxSize = 10) {
+		if (_MaxSize <= 0) throw "Wrong size";
 		MaxSize = _MaxSize;
 		pMem = new T[MaxSize];
 		CurrInd = -1;
@@ -41,9 +42,9 @@ public:
 	bool empty() { return CurrInd == -1; }
 	bool full() { return CurrInd == (MaxSize - 1); }
 	void push(const T& el) {
+		if (CurrInd++ >= MaxSize) throw "Stack overflow";
 		CurrInd++;
 		pMem[CurrInd] = el;
-		if (CurrInd >= MaxSize) throw "Stack overflow";
 	}
 	T pop() {
 		if (empty()) throw "Stack is empty";
