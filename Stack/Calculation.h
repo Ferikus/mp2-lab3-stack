@@ -10,7 +10,8 @@ class TCalc
 	TStack<char> C;
 	int prior(char c);
 public:
-	bool checkExpression();
+	void toInfix(std::string s);
 	void toPostfix();
+	bool checkExpression();
 	double calc();
 };

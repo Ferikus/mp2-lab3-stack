@@ -22,6 +22,8 @@ public:
 			pMem[i] = s.pMem[i];
 		}
 	}
+	int getMaxSize() { return MaxSize; }
+	int getLength() { return CurrInd + 2; }
 	TStack& operator= (const TStack& s) {
 		if (MaxSize != s.MaxSize) {
 			delete[] pMem;

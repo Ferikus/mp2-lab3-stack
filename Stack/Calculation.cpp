@@ -12,17 +12,8 @@ int TCalc::prior(char c) {
 	}
 }
 
-bool TCalc::checkExpression() {
-	int res = true;
-	for (int i = 0; i < infix.size(); i++) {
-		if (infix[i] == '(') C.push('(');
-		if (infix[i] == ')') {
-			if (!C.empty()) C.pop();
-			else res = false;
-		}
-	}
-	if (!C.empty()) res = false;
-	return res;
+void toInfix(std::string s) {
+	infix = s;
 }
 
 void TCalc::toPostfix() {
@@ -46,6 +37,19 @@ void TCalc::toPostfix() {
 			}
 		}
 	}
+}
+
+bool TCalc::checkExpression() {
+	int res = true;
+	for (int i = 0; i < infix.size(); i++) {
+		if (infix[i] == '(') C.push('(');
+		if (infix[i] == ')') {
+			if (!C.empty()) C.pop();
+			else res = false;
+		}
+	}
+	if (!C.empty()) res = false;
+	return res;
 }
 
 double TCalc::calc() {
