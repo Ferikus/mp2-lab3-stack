@@ -2,15 +2,15 @@
 #include "Calculation.h"
 
 int main() {
-	TCalc expr;
 	std::string s;
-	double res = 0;
+	double res;
 
 	std::cout << "Enter the expression" << std::endl;
 	getline(std::cin, s);
+	TCalc expr(s);
 	if (expr.checkExpression()) {
 		std::cout << "The expression is valid. Calculating...";
-		res = s.calc();
+		res = expr.calc();
 		std::cout << "This expression equals " << res << std::endl;
 	}
 }

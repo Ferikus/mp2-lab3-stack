@@ -1,5 +1,12 @@
 #include "Calculation.h";
 
+TCalc::TCalc() {}
+
+TCalc::TCalc(std::string s) {
+	infix = s;
+	toPostfix();
+}
+
 int TCalc::prior(char c) {
 	switch (c) {
 	case '(': return 0;
@@ -12,9 +19,9 @@ int TCalc::prior(char c) {
 	}
 }
 
-void toInfix(std::string s) {
-	infix = s;
-}
+void TCalc::setInfix(std::string s) { infix = s; }
+
+std::string TCalc::getInfix() { return infix; }
 
 void TCalc::toPostfix() {
 	C.clear();

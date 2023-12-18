@@ -40,8 +40,11 @@ TEST(TStack, CAN_PUSH) {
 
 TEST(TStack, CAN_POP) {
 	TStack<int> s(3);
+	s.push(1);
+	s.push(1);
 
-	EXPECT_NO_THROW(s.pop(1));
+	EXPECT_NO_THROW(s.pop());
+	EXPECT_EQ(1, s.pop());
 }
 
 TEST(TStack, FULL_STACK_IS_FULL) {

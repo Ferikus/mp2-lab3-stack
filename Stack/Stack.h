@@ -23,7 +23,7 @@ public:
 		}
 	}
 	int getMaxSize() { return MaxSize; }
-	int getLength() { return CurrInd + 2; }
+	int getLength() { return CurrInd + 1; }
 	TStack& operator= (const TStack& s) {
 		if (MaxSize != s.MaxSize) {
 			delete[] pMem;
@@ -44,7 +44,7 @@ public:
 	bool empty() { return CurrInd == -1; }
 	bool full() { return CurrInd == (MaxSize - 1); }
 	void push(const T& el) {
-		if (CurrInd++ >= MaxSize) throw "Stack overflow";
+		if (CurrInd + 1 >= MaxSize) throw "Stack overflow";
 		CurrInd++;
 		pMem[CurrInd] = el;
 	}

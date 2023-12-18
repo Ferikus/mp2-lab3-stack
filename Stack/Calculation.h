@@ -10,7 +10,10 @@ class TCalc
 	TStack<char> C;
 	int prior(char c);
 public:
-	void toInfix(std::string s);
+	TCalc();
+	TCalc(std::string s);
+	void setInfix(std::string s);
+	std::string getInfix();
 	void toPostfix();
 	bool checkExpression();
 	double calc();
