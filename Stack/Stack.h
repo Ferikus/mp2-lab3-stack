@@ -2,62 +2,98 @@
 #include <iostream>
 
 template <class T>
+struct TNode
+{
+	T val;
+	TNode<T>* pNext;
+};
+
+template <class T>
 class TStack
 {
-	T* pMem;
-	int MaxSize;
-	int CurrInd;
+	TNode<T>* pFirst;
 public:
-	TStack(int _MaxSize = 10) {
-		if (_MaxSize <= 0) throw "Wrong size";
-		MaxSize = _MaxSize;
-		pMem = new T[MaxSize];
-		CurrInd = -1;
-	}
-	TStack(const TStack& s) {
-		MaxSize = s.MaxSize;
-		pMem = new T[MaxSize];
-		CurrInd = s.CurrInd;
-		for (int i = 0; i < CurrInd + 1; i++) {
-			pMem[i] = s.pMem[i];
+	TStack() { pFirst = nullptr; }
+
+	TStack(const TStack<T>& s) {
+		TNode<T>* tmp = new TNode<T>;
+		tmp = s.pFirst;
+		while (tmp != nullptr)
+		{
+			pFirst = tmp;
+			tmp = tmp->pNext;
 		}
 	}
-	int getMaxSize() { return MaxSize; }
-	int getLength() { return CurrInd + 1; }
-	TStack& operator= (const TStack& s) {
-		if (MaxSize != s.MaxSize) {
-			delete[] pMem;
-			MaxSize = s.MaxSize;
-			pMem = new T[MaxSize];
+
+	TStack<T>& operator=(const TStack & s) {
+		TNode<T>* tmp = new TNode<T>;
+		tmp = s.pFirst;
+		while (tmp != nullptr) {
+			pFirst = tmp;
+			tmp = tmp->pNext;
 		}
-		CurrInd = s.CurrInd;
-		for (int i = 0; i < CurrInd + 1; i++) {
-			pMem[i] = s.pMem[i];
+		return *this;
+	}
+
+	~TStack() {
+		TNode <T>* tmp = pFirst;
+		while (pFirst != nullptr) {
+			pFirst = pFirst->pNext;
+			delete tmp;
+			tmp = pFirst;
 		}
 	}
-	friend std::ostream& operator<< (std::ostream& os, const TStack& s) {
-		for (int i = 0; i < s.CurrInd; i++) {
-			os << s.pMem[i] << " ";
+
+	bool empty() { return pFirst == nullptr; }
+
+	bool full() {
+		TNode<T>* p = new TNode<T>;
+		if (p)
+		{
+			delete p;
+			return true;
 		}
-		return os;
+		else return false;
 	}
-	bool empty() { return CurrInd == -1; }
-	bool full() { return CurrInd == (MaxSize - 1); }
-	void push(const T& el) {
-		if (CurrInd + 1 >= MaxSize) throw "Stack overflow";
-		CurrInd++;
-		pMem[CurrInd] = el;
+
+	void push(T el) {
+		TNode <T>* tmp;
+		tmp = new TNode<T>;
+		tmp->pNext = pFirst;
+		tmp->val = el;
+		pFirst = tmp;
 	}
+
 	T pop() {
-		if (empty()) throw "Stack is empty";
-		CurrInd--;
-		return pMem[CurrInd + 1];
+		if (empty()) throw "The stack is empty";
+		T res = pFirst->val;
+		TNode<T>* tmp = pFirst;
+		pFirst = pFirst->pNext;
+		delete tmp;
+		return res;
 	}
+
 	T top() {
-		if (empty()) throw "Stack is empty";
-		return pMem[CurrInd + 1];
+		if (empty()) throw "The stack is empty";
+		return pFirst->val;
 	}
+
 	void clear() {
-		CurrInd = -1;
+		TNode <T>* tmp = pFirst;
+		while (pFirst != nullptr) {
+			pFirst = pFirst->pNext;
+			delete tmp;
+			tmp = pFirst;
+		}
+	}
+
+	int getLength() {
+		TNode<T>* p = pFirst;
+		int i = 0;
+		while (p != nullptr) {
+			i++;
+			p = (*p).pNext;
+		}
+		return i;
 	}
 };
