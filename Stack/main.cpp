@@ -9,7 +9,7 @@ int main() {
 	getline(std::cin, s);
 	TCalc expr(s);
 	if (expr.checkExpression()) {
-		std::cout << "The expression is valid. Calculating...";
+		std::cout << "The expression is valid. Calculating..." << std::endl;
 		res = expr.calc();
 		std::cout << "This expression equals " << res << std::endl;
 	}
