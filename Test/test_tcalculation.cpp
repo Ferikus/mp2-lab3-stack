@@ -1,18 +1,20 @@
-#include "pch.h"
 #include "../Stack/Calculation.h"
+#include "gtest.h"
 
 TEST(TCalc, CAN_CREATE_CALCULATION_WITH_STR) {
 
-	std::string s = "(2 + 2)";
-	ASSERT_NO_THROW(TCalc expr(s));
+    std::string s = "(2+2)";
+
+    ASSERT_NO_THROW(TCalc expr(s));
 }
 
 TEST(TCalc, CAN_GET_INFIX) {
-	std::string s = "(2 + 2)";
-	std::string a;
-	TCalc expr(s);
-	ASSERT_NO_THROW(a = expr.getInfix());
-	EXPECT_EQ(a, expr.getInfix());
+    std::string s = "(2+2)";
+    std::string a;
+    TCalc expr(s);
+
+    ASSERT_NO_THROW(a = expr.getInfix());
+    EXPECT_EQ(a, expr.getInfix());
 }
 
 TEST(TCalc, CAN_SET_INFIX) {
@@ -37,17 +39,16 @@ TEST(TCalc, CAN_CREATE_CORRECT_POSTFIX) {
     std::string a = "2+(3*5)";
     std::string b = "235*+";
     std::string c;
-    TCalc expr(a);
-    c = expr.getPostfix();
+    TCalc calc(a);
 
     EXPECT_EQ(c, b);
 }
 
 TEST(TCalc, CAN_CALCULATE) {
     std::string a = "2+(3*5)";
-    TCalc expr(a);
+    TCalc calc(a);
     double check;
 
-    ASSERT_NO_THROW(check = expr.calc());
+    ASSERT_NO_THROW(check = calc.calc());
     EXPECT_EQ(17, check);
 }
