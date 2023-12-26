@@ -92,61 +92,9 @@ public:
 	}
 
 	double calc() {
-		/*C.clear(); D.clear();
-		std::string str = '(' + infix + ')';
-		for (int i = 0; i < str.size(); i++) {
-			if (str[i] == '(') C.push(str[i]);
-			if (str[i] == ')') {
-				char el = C.pop();
-				while (el != ')') {
-					double x2 = D.pop(),
-						x1 = D.pop(),
-						res;
-					switch (el) {
-					case '+': res = x1 + x2; break;
-					case '-': res = x1 - x2; break;
-					case '*': res = x1 * x2; break;
-					case '/': res = x1 / x2; break;
-					case '^': res = pow(x1, x2); break;
-					}
-					D.push(res);
-					el = C.pop();
-				}
-			}
-			if (isdigit(str[i])) {
-				size_t pos;
-				double x;
-				x = std::stod(&str[i], &pos);
-				D.push(x);
-				i = i + pos - 1;
-			}
-			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
-				char el = C.pop();
-				while (prior(el) >= prior(str[i])) {
-					double x1, x2, res;
-					x2 = D.pop();
-					x1 = D.pop();
-					switch (str[i]) {
-					case '+': res = x1 + x2; break;
-					case '-': res = x1 - x2; break;
-					case '*': res = x1 * x2; break;
-					case '/': res = x1 / x2; break;
-					case '^': res = pow(x1, x2); break;
-					}
-					D.push(res);
-					el = C.pop();
-				}
-				C.push(el);
-				C.push(str[i]);
-			}
-		}
-		return D.pop();*/
-
 		D.clear();
 		for (int i = 0; i < postfix.length(); i++) {
-			if (isdigit(postfix[i])) {
-				D.push(postfix[i] - '0');
-			}
+			if (isdigit(postfix[i])) D.push(postfix[i] - '0');
 			if ((postfix[i] == '+') || (postfix[i] == '-') || (postfix[i] == '*') || (postfix[i] == '/') || (postfix[i] == '^')) {
 				double x1 = 0, x2 = 0, y = 0;
 				if (D.empty() == false) x2 = D.pop();
@@ -155,7 +103,10 @@ public:
 				case '+': y = x1 + x2; break;
 				case '-': y = x1 - x2; break;
 				case '*': y = x1 * x2; break;
-				case '/': y = x1 / x2; break;
+				case '/': {
+					if (x2 == 0) throw "Division by 0";
+					y = x1 / x2;
+				} break;
 				case '^': y = pow(x1, x2); break;
 				}
 				D.push(y);
@@ -164,5 +115,6 @@ public:
 		double res;
 		if (D.empty() == false) res = D.pop();
 		else throw "Stack is empty";
+		return res;
 	}
 };
