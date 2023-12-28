@@ -51,3 +51,11 @@ TEST(TCalc, CAN_CALCULATE) {
     ASSERT_NO_THROW(check = expr.calc());
     EXPECT_EQ(17, check);
 }
+
+ TEST(TCalc, PROCCESSES_ALL_OPERANDS) {
+    std::string a = "((2+2)*2/2)^2";
+    TCalc expr(a);
+
+    ASSERT_NO_THROW(expr.calc());
+    EXPECT_EQ(16, expr.calc());
+}
