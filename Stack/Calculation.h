@@ -33,27 +33,6 @@ public:
 	std::string getPostfix() { return postfix; }
 
 	void toPostfix() {
-		/*C.clear();
-		std::string str = '(' + infix + ')';
-		for (int i = 0; i < str.size(); i++) {
-			if (str[i] == '(') C.push('(');
-			else if (isdigit(str[i])) postfix += str[i];
-			if (str[i] == ')') {
-				char el = C.pop();
-				while (el != '(') {
-					postfix += el;
-					el = C.pop();
-				}
-			}
-			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
-				char el = C.pop();
-				while (prior(el) >= prior(str[i])) {
-					postfix += el;
-					el = C.pop();
-				}
-			}
-		}*/
-
 		C.clear();
 		std::string str = '(' + infix + ')';
 		for (int i = 0; i < str.size(); i++) {
@@ -68,11 +47,11 @@ public:
 			}
 			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
 				char el = C.pop();
-				if (prior(el) >= prior(str[i])) {
+				while (prior(el) >= prior(str[i])) {
 					postfix += el;
 					el = C.pop();
 				}
-				else C.push(el);
+				C.push(el);
 				C.push(str[i]);
 			}
 		}
@@ -112,9 +91,9 @@ public:
 				D.push(y);
 			}
 		}
-		double res;
-		if (D.empty() == false) res = D.pop();
-		else throw "Stack is empty";
+		double res = D.pop();
+		//if (D.empty() == false) res = D.pop();
+		//else throw "Stack is empty";
 		return res;
 	}
 };
