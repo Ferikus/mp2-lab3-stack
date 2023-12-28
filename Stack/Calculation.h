@@ -47,11 +47,11 @@ public:
 			}
 			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
 				char el = C.pop();
-				if (prior(el) >= prior(str[i])) {
+				while (prior(el) >= prior(str[i])) {
 					postfix += el;
 					el = C.pop();
 				}
-				else C.push(el);
+				C.push(el);
 				C.push(str[i]);
 			}
 		}
