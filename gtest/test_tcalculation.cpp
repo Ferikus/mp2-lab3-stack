@@ -16,7 +16,7 @@ TEST(TCalc, CAN_GET_INFIX) {
 }
 
 TEST(TCalc, CAN_SET_INFIX) {
-    std::string a = "2+(3*5)";
+    std::string a = "2 + (3 * 5)";
     std::string b;
     TCalc calc(a);
 
@@ -25,7 +25,7 @@ TEST(TCalc, CAN_SET_INFIX) {
 }
 
 TEST(TCalc, CAN_CHECK_IF_THE_EXPRESSION_IS_CORRECT) {
-    std::string a = "2+(3*5)";
+    std::string a = "2 + (3 * 5)";
     TCalc calc(a);
     bool check;
 
@@ -34,7 +34,7 @@ TEST(TCalc, CAN_CHECK_IF_THE_EXPRESSION_IS_CORRECT) {
 }
 
 TEST(TCalc, CAN_CREATE_CORRECT_POSTFIX) {
-    std::string a = "2+(3*5)";
+    std::string a = "2 + (3 * 5)";
     std::string b = "235*+";
     std::string c;
     TCalc expr(a);
@@ -44,16 +44,16 @@ TEST(TCalc, CAN_CREATE_CORRECT_POSTFIX) {
 }
 
 TEST(TCalc, CAN_CALCULATE) {
-    std::string a = "2+(3*5)";
+    std::string a = "2.2 + (3 * 5)";
     TCalc expr(a);
     double check;
 
     ASSERT_NO_THROW(check = expr.calc());
-    EXPECT_EQ(17, check);
+    EXPECT_EQ(17.2, check);
 }
 
 TEST(TCalc, PROCCESSES_ALL_OPERANDS) {
-    std::string a = "((2+2)*2/2)^2";
+    std::string a = "((2 + 2) * 2 / 2)^2";
     TCalc expr(a);
 
     ASSERT_NO_THROW(expr.calc());

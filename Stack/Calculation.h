@@ -71,31 +71,60 @@ public:
 	}
 
 	double calc() {
-		D.clear();
-		for (int i = 0; i < postfix.length(); i++) {
-			if (isdigit(postfix[i])) {
-				D.push(postfix[i] - '0');
-			}
-			if ((postfix[i] == '+') || (postfix[i] == '-') || (postfix[i] == '*') || (postfix[i] == '/') || (postfix[i] == '^')) {
-				double x1 = 0, x2 = 0, y = 0;
-				if (D.empty() == false) x2 = D.pop();
-				if (D.empty() == false) x1 = D.pop();
-				switch (postfix[i]) {
-				case '+': y = x1 + x2; break;
-				case '-': y = x1 - x2; break;
-				case '*': y = x1 * x2; break;
-				case '/': {
-					if (x2 == 0) throw "Division by 0";
-					y = x1 / x2;
-				} break;
-				case '^': y = pow(x1, x2); break;
+		C.clear();  D.clear();
+		std::string str = '(' + infix + ')';
+		for (int i = 0; i < str.size(); i++) {
+			if (str[i] == '(') C.push(str[i]);
+			if (str[i] == ')') {
+				char el = C.pop();
+				while (el != '(') {
+					double x2 = D.pop(),
+						x1 = D.pop(),
+						y;
+					switch (el) {
+					case '+': y = x1 + x2; break;
+					case '-': y = x1 - x2; break;
+					case '*': y = x1 * x2; break;
+					case '/': {
+						if (x2 == 0) throw "Division by 0";
+						y = x1 / x2;
+					} break;
+					case '^': y = pow(x1, x2); break;
+					}
+					D.push(y);
+					el = C.pop();
 				}
-				D.push(y);
+			}
+			if ((str[i] >= '0') && (str[i] <= '9')) {
+				size_t pos;
+				double x;
+				x = std::stod(&str[i], &pos);
+				D.push(x);
+				i = i + pos - 1;
+			}
+			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
+				char el = C.pop();
+				while (prior(el) >= prior(str[i])) {
+					double x2 = D.pop(),
+						x1 = D.pop(),
+						y;
+					switch (el) {
+					case '+': y = x1 + x2; break;
+					case '-': y = x1 - x2; break;
+					case '*': y = x1 * x2; break;
+					case '/': {
+						if (x2 == 0) throw "Division by 0";
+						y = x1 / x2;
+					} break;
+					case '^': y = pow(x1, x2); break;
+					}
+					D.push(y);
+					el = C.pop();
+				}
+				C.push(el);
+				C.push(str[i]);
 			}
 		}
-		double res;
-		if (D.empty() == false) res = D.pop();
-		else throw "Stack is empty";
-		return res;
+		return D.pop();
 	}
 };
